@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Form,
   FormGroup,
@@ -9,7 +9,7 @@ import {
   Container,
 } from "reactstrap";
 import { connect } from "react-redux";
-import { addUser } from "../../redux/actions";
+import { addTodo } from "../redux/actions";
 
 const FormComponent = (props) => {
   //   const [values, handleChange] = useForm({ nama: "", alamat: "", nohp: "" });
@@ -19,17 +19,6 @@ const FormComponent = (props) => {
     nohp: "07987",
     umur: "12",
   });
-
-  const handleAddUser = () => {
-    let newUser = {
-      nama: nama,
-      nohp: nohp,
-      umur: umur,
-      alamat: alamat,
-    };
-    props.addUser(newUser);
-    //props.dispatch(addUser(newUser));
-  };
 
   return (
     <Form>
@@ -109,8 +98,7 @@ const FormComponent = (props) => {
         <Col sm={{ size: 3, offset: 2 }}>
           <Button
             className="btn-block"
-            // onClick={() => props.fromChildCreateUser(nama, nohp, umur, alamat)}
-            onClick={handleAddUser}
+            onClick={() => props.fromChildCreateUser(nama, nohp, umur, alamat)}
           >
             Submit
           </Button>
@@ -120,4 +108,4 @@ const FormComponent = (props) => {
   );
 };
 
-export default connect(null, { addUser })(FormComponent);
+export default FormComponent;

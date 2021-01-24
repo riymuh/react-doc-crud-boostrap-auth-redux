@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Spinner, Table } from "reactstrap";
+import { Col, Container, Row, Table } from "reactstrap";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import CardComponent from "../components/blog/CardComponent";
@@ -23,6 +23,9 @@ const BlogComponent = () => {
 
   const receiveChildValue = (value) => {
     console.log("Parent received value from child: " + value); // value is 42
+    setUsers((currentUsers) =>
+      currentUsers.filter((user, i) => user.id !== value)
+    );
   };
 
   const createUser = (nama, nohp, umur, alamat) => {
@@ -51,27 +54,32 @@ const BlogComponent = () => {
       {users.length > 0 ? (
         <Container className="mt-5">
           <Row>
-            <Table>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Nama</th>
-                  <th>Alamat</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) => (
-                  <CardComponent
-                    user={user}
-                    fromChildToParentCallback={receiveChildValue}
-                    key={user.id}
-                  />
-                ))}
-              </tbody>
-            </Table>
+            <Col md="6">
+              <h5>{users.length}</h5>
+              <Table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Nama</th>
+                    <th>Alamat</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map((user) => (
+                    <CardComponent
+                      user={user}
+                      fromChildToParentCallback={receiveChildValue}
+                      key={user.id}
+                    />
+                  ))}
+                </tbody>
+              </Table>
+            </Col>
+            <Col md="6">
+              <FormComponent fromChildCreateUser={createUser} />
+            </Col>
           </Row>
-          <FormComponent fromChildCreateUser={createUser} />
         </Container>
       ) : (
         <div className="text-center">
