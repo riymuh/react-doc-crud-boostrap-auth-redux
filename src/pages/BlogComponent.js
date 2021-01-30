@@ -4,8 +4,16 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import CardComponent from "../components/blog/CardComponent";
 import FormComponent from "../components/blog/FormComponent";
+import { connect } from "react-redux";
 
-const BlogComponent = () => {
+const mapStateToProps = (state) => {
+  return {
+    getUsersList: state.users.users,
+    // errorUsersList: state.users.errorUsersList,
+  };
+};
+
+const BlogComponent = (props) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -73,6 +81,13 @@ const BlogComponent = () => {
                       key={user.id}
                     />
                   ))}
+                  {props.getUsersList.map((user) => (
+                    <CardComponent
+                      user={user}
+                      fromChildToParentCallback={receiveChildValue}
+                      key={user.id}
+                    />
+                  ))}
                 </tbody>
               </Table>
             </Col>
@@ -95,4 +110,4 @@ const BlogComponent = () => {
   );
 };
 
-export default BlogComponent;
+export default connect(mapStateToProps, null)(BlogComponent);
